@@ -39,7 +39,6 @@ namespace StudentWebApplication
 
         List<Student> studentList = new List<Student>();
 
-        [WebMethod]
         public string HelloWorld()
         {
             return "Hello World";

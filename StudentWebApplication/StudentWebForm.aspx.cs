@@ -23,105 +23,144 @@ namespace StudentWebApplication
 
         protected void addStudent_Click(object sender, EventArgs e)
         {
-            StudentWebService studentWebService = new StudentWebService();
-            List<StudentWebService.Student> students = studentWebService.DisplayAllStudentDetails().ToList();
-
-            students.Add(new StudentWebService.Student
+            try
             {
-                Id = int.Parse(textId.Text),
-                Name = textName.Text,
-                Age = int.Parse(textAge.Text),
-            });
+                StudentWebService studentWebService = new StudentWebService();
+                List<StudentWebService.Student> students = studentWebService.DisplayAllStudentDetails().ToList();
 
-            studentWebService.UpdateStudentListInSession(students);
-            labelMessage.Text = "Student Added Successfully";
+                students.Add(new StudentWebService.Student
+                {
+                    Id = int.Parse(textId.Text),
+                    Name = textName.Text,
+                    Age = int.Parse(textAge.Text),
+                });
 
-            // studentWebService.AddStudent(int.Parse(textId.Text),textName.Text,int.Parse(textAge.Text));
+                studentWebService.UpdateStudentListInSession(students);
+                labelMessage.Text = "Student Added Successfully";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error {0}",ex.ToString());
+            }
+            
 
-
+           
         }
 
         protected void getStudentById_Click(Object sender, EventArgs e)
         {
-            StudentWebService studentWebService = new StudentWebService();
-            int studentId = int.Parse(textId.Text);
-
-            List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
-
-            StudentWebService.Student studentToFind = studentList.FirstOrDefault(student => student.Id == studentId);
-
-            if (studentToFind != null)
+            try
             {
-                labelMessage.Text = $"Student Id: {studentToFind.Id}, Student Name: {studentToFind.Name}, Student Age: {studentToFind.Age}";
+                StudentWebService studentWebService = new StudentWebService();
+                int studentId = int.Parse(textId.Text);
+
+                List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
+
+                StudentWebService.Student studentToFind = studentList.FirstOrDefault(student => student.Id == studentId);
+
+                if (studentToFind != null)
+                {
+                    labelMessage.Text = $"Student Id: {studentToFind.Id}, Student Name: {studentToFind.Name}, Student Age: {studentToFind.Age}";
+                }
+                else
+                {
+                    labelMessage.Text = "Student Not found";
+                }
             }
-            else
+            
+
+            catch (Exception ex)
             {
-                labelMessage.Text = "Student Not found";
+                Console.WriteLine("Error {0}", ex.ToString());
             }
         }
 
         protected void updateStudent_Click(Object sender, EventArgs e)
         {
-            StudentWebService studentWebService=new StudentWebService();
-            int studentId = int.Parse(textId.Text);
-
-            List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
-
-            StudentWebService.Student studentToUpdate = studentList.FirstOrDefault(student => student.Id == studentId);
-
-            if (studentToUpdate!=null)
+            try
             {
-                studentToUpdate.Name = textName.Text;
-                studentToUpdate.Age = int.Parse(textAge.Text);
+                StudentWebService studentWebService = new StudentWebService();
+                int studentId = int.Parse(textId.Text);
 
-                studentWebService.UpdateStudentListInSession(studentList);
+                List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
 
-                labelMessage.Text = "Student Updated Successfully";
+                StudentWebService.Student studentToUpdate = studentList.FirstOrDefault(student => student.Id == studentId);
+
+                if (studentToUpdate != null)
+                {
+                    studentToUpdate.Name = textName.Text;
+                    studentToUpdate.Age = int.Parse(textAge.Text);
+
+                    studentWebService.UpdateStudentListInSession(studentList);
+
+                    labelMessage.Text = "Student Updated Successfully";
+                }
+                else
+                {
+                    labelMessage.Text = "Student Not Found";
+                }
             }
-            else
+            
+            catch (Exception ex)
             {
-                labelMessage.Text = "Student Not Found";
+                Console.WriteLine("Error {0}", ex.ToString());
             }
         }
 
         
         protected void getAllStudents_Click(Object sender, EventArgs e)
         {
-            StudentWebService studentWebService = new StudentWebService();
+            try
+            {
+                StudentWebService studentWebService = new StudentWebService();
 
-            List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
-            
-            if(studentList!=null && studentList.Count > 0)
-            {
-                gridView.DataSource = studentList;
-                gridView.DataBind();
+                List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
+
+                if (studentList != null && studentList.Count > 0)
+                {
+                    gridView.DataSource = studentList;
+                    gridView.DataBind();
+                }
+                else
+                {
+                    labelMessage.Text = "No Student Found";
+                }
             }
-            else
-            {
-                labelMessage.Text = "No Student Found";
-            }
             
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error {0}", ex.ToString());
+            }
+
         }
 
         protected void removeStudent_Click(Object sender, EventArgs e)
         {
-            StudentWebService studentWebService = new StudentWebService();
-            int studentId=int.Parse(textId.Text);
-
-            List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
-
-            StudentWebService.Student studentToRemove = studentList.Find(student => student.Id == studentId);
-
-            if (studentToRemove != null)
+            try
             {
-                studentList.Remove(studentToRemove);
-                studentWebService.UpdateStudentListInSession(studentList);
-                labelMessage.Text = "Student Deleted Successfully";
+                StudentWebService studentWebService = new StudentWebService();
+                int studentId = int.Parse(textId.Text);
+
+                List<StudentWebService.Student> studentList = studentWebService.DisplayAllStudentDetails().ToList();
+
+                StudentWebService.Student studentToRemove = studentList.Find(student => student.Id == studentId);
+
+                if (studentToRemove != null)
+                {
+                    studentList.Remove(studentToRemove);
+                    studentWebService.UpdateStudentListInSession(studentList);
+                    labelMessage.Text = "Student Deleted Successfully";
+                }
+
+                else
+                {
+                    labelMessage.Text = "Student Not Exist";
+                }
             }
             
-            else
+            catch (Exception ex)
             {
-                labelMessage.Text = "Student Not Exist";
+                Console.WriteLine("Error {0}", ex.ToString());
             }
 
         }
