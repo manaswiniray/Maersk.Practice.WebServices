@@ -108,5 +108,20 @@ namespace StudentWebApplication
             Session["studentList"] = updatedStudentList;
         }
 
+        public int GetVisitorCount()
+        {
+            if (Session["VisitorCount"] == null)
+            {
+                return 0;
+            }
+            return (int)Session["VisitorCount"];
+
+        }
+
+        private void SetVisitorCount(int count)
+        {
+            Session["VisitorCount"] = count;
+        }
+
     }
 }

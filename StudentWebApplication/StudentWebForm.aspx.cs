@@ -11,9 +11,14 @@ namespace StudentWebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            StudentWebService studentWebService = new StudentWebService();
+
             if (!IsPostBack)
             {
-                labelMessage.Text = "Hello Welcome to The Student Portal! \n First Loading Time: " + DateTime.Now.ToLongTimeString();
+                int visitorCount = studentWebService.GetVisitorCount();
+                visitorCount++;
+                labelMessage.Text = "Hello Welcome to The Student Portal! \nFirst Loading Time: " + DateTime.Now.ToLongTimeString()
+                    + $"\nVisitor Count: " + visitorCount;
             }
             else
             {
